@@ -1,13 +1,13 @@
 <resources>
     <string name="app_name">GeoQuiz</string>
     <!--in app hardcoded strings-->
-    <string name="question_text">
-        Some shitty placeholder.
-    </string>
+    <string name="question_text">Placeholder</string>
     <string name="true_button">True</string>
     <string name="false_button">False</string>
     <string name="correct">Correct!</string>
     <string name="incorrect">Incorrect!</string>
+    <string name="scoreMessage">Your score is %d</string>
+    <string name="duplicate">"Already answered!</string>
     <!--pytania-->
     <string name="question1">True - question 1</string>
     <string name="question2">False - question 2</string>

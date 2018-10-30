@@ -1,6 +1,5 @@
 package com.example.pawelczyszczon.geoquiz;
 
-import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -26,6 +25,16 @@ public class QuizActivity extends AppCompatActivity {
             new Question(R.string.question4, true),
     };
 
+    private boolean isAnyQuestionLeft(){
+        boolean result = false;
+        for(int i = 0; i < mQuestionBank.length; i++){
+            if(!mQuestionBank[i].wasAnswered()){
+                result = true;
+            }
+        }
+        return result;
+    }
+
     private void updateQuestion(){
         mCurrentIndex++;
         if(mCurrentIndex == mQuestionBank.length){
@@ -48,16 +57,41 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     private void checkAnswer(boolean userPressedTrue) {
-        boolean answerIsTrue = mQuestionBank[mCurrentIndex].isAnswerTrue();
         int messageResId;
-        if (userPressedTrue == answerIsTrue) {
-            messageResId = R.string.correct;
-        } else {
-            messageResId = R.string.incorrect;
+        if(!mQuestionBank[mCurrentIndex].wasAnswered()) {
+            boolean answerIsTrue = mQuestionBank[mCurrentIndex].isAnswerTrue();
+            if (userPressedTrue == answerIsTrue) {
+                messageResId = R.string.correct;
+            } else {
+                messageResId = R.string.incorrect;
+            }
+            mQuestionBank[mCurrentIndex].answer(userPressedTrue);
+        }
+        else{
+            messageResId = R.string.duplicate;
         }
         Toast toast = Toast.makeText(this, messageResId, Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.TOP,0, 40);
         toast.show();
+    }
+
+    private void displayScoreAndReset(){
+        int score = 0;
+        for(int i = 0; i < mQuestionBank.length; i++){
+            if(mQuestionBank[i].getPoint()){
+                score++;
+            }
+        }
+        Toast toast = Toast.makeText(
+                this,
+                String.format(getString(R.string.scoreMessage), score),
+                Toast.LENGTH_SHORT);
+        toast.show();
+
+        for(int i = 0; i < mQuestionBank.length; i++)
+            mQuestionBank[i].reset();
+        mCurrentIndex = 0;
+        setQuestionText();
     }
 
     @Override
@@ -73,11 +107,21 @@ public class QuizActivity extends AppCompatActivity {
 
         setQuestionText();
 
+        question_text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                updateQuestion();
+            }
+        });
+
         false_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 checkAnswer(false);
                 updateQuestion();
+                if(!isAnyQuestionLeft()){
+                    displayScoreAndReset();
+                }
             }
         });
 
@@ -86,6 +130,9 @@ public class QuizActivity extends AppCompatActivity {
             public void onClick(View view) {
                 checkAnswer(true);
                 updateQuestion();
+                if(!isAnyQuestionLeft()){
+                    displayScoreAndReset();
+                }
             }
         });
 
