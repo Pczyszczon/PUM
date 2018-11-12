@@ -4,6 +4,7 @@ public class Question {
     private int mTextResId;
     private boolean mAnswerTrue;
     private boolean wasAnswered = false;
+    private boolean wasCheated = false;
     private boolean point;
 
     public int getTextResId() {
@@ -19,8 +20,16 @@ public class Question {
         point = (ans == mAnswerTrue);
     }
 
+    public void cheat(){
+        wasCheated = true;
+    }
+
     public boolean wasAnswered(){
-        return(wasAnswered);
+        return wasAnswered;
+    }
+
+    public boolean wasCheated(){
+        return wasCheated;
     }
 
     public boolean getPoint(){
