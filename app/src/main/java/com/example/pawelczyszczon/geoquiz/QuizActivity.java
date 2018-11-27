@@ -19,8 +19,10 @@ public class QuizActivity extends AppCompatActivity {
     public ImageButton next_button;
     public Button mCheatButton;
     public TextView question_text;
+    public TextView tokens_text;
     public boolean mIsCheater;
     private int mCurrentIndex=0;
+    private int mtokens=3;
     private static final int REQUEST_CODE_CHEAT = 0;
 
     private Question[] mQuestionBank = new Question[] {
@@ -52,6 +54,10 @@ public class QuizActivity extends AppCompatActivity {
     private void setQuestionText(){
         int question = mQuestionBank[mCurrentIndex].getTextResId();
         question_text.setText(question);
+    }
+
+    private void setTokensLeft(){
+        tokens_text.setText(String.valueOf(mtokens));
     }
 
     private void previousQuestion(){
@@ -116,8 +122,10 @@ public class QuizActivity extends AppCompatActivity {
         next_button = findViewById(R.id.next_button_id);
         mCheatButton = findViewById(R.id.cheat_button);
         question_text = findViewById(R.id.question_text_id);
+        tokens_text = findViewById(R.id.tokens);
 
         setQuestionText();
+        setTokensLeft();
 
         question_text.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -183,6 +191,11 @@ public class QuizActivity extends AppCompatActivity {
             mIsCheater = CheatActivity.wasAnswerShown(data);
             if(mIsCheater){
                 mQuestionBank[mCurrentIndex].cheat();
+                mtokens--;
+                if(mtokens==0){
+                    mCheatButton.setVisibility(View.INVISIBLE);
+                }
+                setTokensLeft();
             }
         }
     }

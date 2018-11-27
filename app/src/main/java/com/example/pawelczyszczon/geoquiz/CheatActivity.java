@@ -2,6 +2,7 @@ package com.example.pawelczyszczon.geoquiz;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 public class CheatActivity extends AppCompatActivity {
     private boolean mAnswerIsTrue;
     private TextView mAnswerTextView;
+    private TextView apiLevelTextView;
     private Button mShowAnswer;
     private static final String EXTRA_ANSWER_IS_TRUE =
             "com.bignerdranch.android.geoquiz.answer_is_true";
@@ -27,6 +29,8 @@ public class CheatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_cheat);
         mAnswerIsTrue = getIntent().getBooleanExtra(EXTRA_ANSWER_IS_TRUE, false);
         mAnswerTextView = findViewById(R.id.answer_text_view);
+        apiLevelTextView = findViewById(R.id.api_text_view);
+        apiLevelTextView.setText(Build.VERSION.RELEASE);
         mShowAnswer = findViewById(R.id.show_answer_button);
         mShowAnswer.setOnClickListener(new View.OnClickListener() {
             @Override
