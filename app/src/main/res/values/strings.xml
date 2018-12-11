@@ -8,6 +8,7 @@
     <string name="incorrect">Incorrect!</string>
     <string name="scoreMessage">Your score is %d</string>
     <string name="duplicate">"Already answered!</string>
+    <string name="list_button">Questions List</string>
     <!--pytania-->
     <string name="question1">True - question 1</string>
     <string name="question2">False - question 2</string>
